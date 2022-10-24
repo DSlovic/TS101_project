@@ -42,13 +42,29 @@ public class PredlogKorisnickogInterfejsa extends JDialog {
 
         buttonOpenTop.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                onButtonOpenTop();
+                topOrBottom = true;//gives the decider feedback text should appear on top
+                onButtonOpen();
             }
         });
 
         buttonOpenBottom.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                onButtonOpenBottom();
+                topOrBottom = false;//gives the decider feedback text should appear on bottom
+                onButtonOpen();
+            }
+        });
+
+        putTextTopToNew.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                topOrBottom = true;//gives the decider feedback text should appear on bottom
+                putTextToNew();
+            }
+        });
+
+        putTextBottomToNew.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                topOrBottom = false;//gives the decider feedback text should appear on bottom
+                putTextToNew();
             }
         });
 
@@ -62,8 +78,7 @@ public class PredlogKorisnickogInterfejsa extends JDialog {
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
     }
 
-    private void onButtonOpenTop() {
-        topOrBottom = true; //gives the decider feedback text should appear on top
+    private void onButtonOpen() {
         // Create a file dialog box to prompt for a new file to display
         FileDialog f = new FileDialog(this, "Otvori fajl", FileDialog.LOAD);
         f.setDirectory(directory); // Set the default directory
@@ -72,16 +87,6 @@ public class PredlogKorisnickogInterfejsa extends JDialog {
         directory = f.getDirectory(); // Remember new default directory
         loadAndDisplayFile(directory, f.getFile()); // Load and display selection
         f.dispose(); // Get rid of the dialog box
-    }
-
-    private void onButtonOpenBottom() {
-        topOrBottom = false; //gives the decider feedback text should appear on top
-        FileDialog f = new FileDialog(this, "Otvori fajl", FileDialog.LOAD);
-        f.setDirectory(directory);
-        f.setVisible(true);
-        directory = f.getDirectory();
-        loadAndDisplayFile(directory, f.getFile());
-        f.dispose();
     }
 
     private void onButtonClose() {
@@ -123,6 +128,14 @@ public class PredlogKorisnickogInterfejsa extends JDialog {
             } catch (IOException e) {
             }
         }
+    }
+
+    public void putTextToNew() {
+        JTextArea textArea = TopOrBottomFinder(topOrBottom);
+        //String previousText = textAreaNew.getText();
+        if (textAreaNew.getText() == "" || textArea.getText() == ""){textAreaNew.append(textArea.getText());//Puts new text in to next line if the text area is not empty
+        }else{textAreaNew.append("\n" + textArea.getText());}//If text area entering new text area is empty if statement prevents adding new line
+
     }
 
     public static void main(String[] args) {
